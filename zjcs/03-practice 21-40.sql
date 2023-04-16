@@ -391,7 +391,7 @@ from
  group by t2.level;
 
 /*
-2.38 - TODO 难
+2.38 - TODO
 用户每天签到可以领1金币，并可以累计签到天数，连续签到的第3、7天分别可以额外领2和6金币。
 每连续签到7天重新累积签到天数。
 从用户登录明细表中求出每个用户金币总数，并按照金币总数倒序排序
@@ -437,7 +437,7 @@ order by
 
 
 /*
- 2.39
+ 2.39 TODO
 动销率定义为品类商品中一段时间内有销量的商品占当前已上架总商品数的比例（有销量的商品/已上架总商品数）。
 滞销率定义为品类商品中一段时间内没有销量的商品占当前已上架总商品数的比例。（没有销量的商品/已上架总商品数）。
 
@@ -464,6 +464,7 @@ select
     1-t2.`第7天`/t3.cn
 from
     (
+        -- 求出各分类下国庆期间每天的售卖的商品种数
         select
             t1.category_id,
             sum(if(t1.create_date='2021-10-01',1,0)) `第1天`,
@@ -475,7 +476,7 @@ from
             sum(if(t1.create_date='2021-10-07',1,0)) `第7天`
         from
             (
-                -- 求出各分类上架的商品数
+                -- 求出国庆期间售卖的商品
                 select
                     distinct
                     si.category_id,
@@ -488,6 +489,7 @@ from
     )t2
         join
     (
+        -- 求出各分类下已上架商品数
         select
             category_id,
             count(*) cn
@@ -496,11 +498,31 @@ from
         group by
             category_id
     )t3
-    on
-            t2.category_id=t3.category_id;
+    on t2.category_id=t3.category_id;
 
-
--- 查询每个品类下商品上架数量
-select si.category_id, count(1) cnt
-from sku_info si
-group by si.category_id
+/*
+ 2.40 TODO 根据用户登录明细表（user_login_detail），求出平台同时在线最多的人数
+ */
+-- 拿到最大值 就是同时在线最多人数
+select
+    max(sum_l_time)
+from
+    (
+        select
+            sum(flag)over(order by t1.l_time) sum_l_time
+        from
+            (
+                -- 标记登录(1)和下线(-1)
+                select
+                    login_ts l_time,
+                    1 flag
+                from
+                    user_login_detail
+                union
+                select
+                    logout_ts l_time,
+                    -1 flag
+                from
+                    user_login_detail
+            )t1
+    )t2
