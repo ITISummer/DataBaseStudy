@@ -427,3 +427,4 @@ from ods_favor_info_full ofi left join dim_sku_full dsf
 on ofi.sku_id = dsf.id
 where ofi.dt='2022-06-08' and is_cancel='0'
 -- group by ofi.dt,user_id,sku_id;
+

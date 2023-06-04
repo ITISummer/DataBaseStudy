@@ -166,6 +166,8 @@ CREATE EXTERNAL TABLE dws_traffic_page_visitor_page_view_1d
 
 -- 运行此脚本生成首日数据
 -- dwd_to_dws_1d_init.sh all 2022-06-08
+-- 2023年5月22日09:35:34 添加此行
+-- dwd_to_dws_1d.sh all 2022-06-09
 
 show tables like 'dws_.*_1d';
 

@@ -42,6 +42,9 @@ CREATE EXTERNAL TABLE ods_log_inc
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.JsonSerDe'
     LOCATION '/warehouse/gmall/ods/ods_log_inc/';
 
+-- hdfs_to_ods_log.sh 2022-06-08
+-- hdfs_to_ods_log.sh 2022-06-09
+
 -- 业务表
 -- 7.2.1 活动信息表（全量表）
 DROP TABLE IF EXISTS ods_activity_info_full;
@@ -212,7 +215,7 @@ CREATE EXTERNAL TABLE ods_coupon_info_full
     `coupon_type`      STRING COMMENT '购物券类型 1 现金券 2 折扣券 3 满减券 4 满件打折券',
     `condition_amount` DECIMAL(16, 2) COMMENT '满额数',
     `condition_num`    BIGINT COMMENT '满件数',
-    `activity_id`      STRING COMMENT '活动编号',
+        `activity_id`      STRING COMMENT '活动编号',
     `benefit_amount`   DECIMAL(16, 2) COMMENT '减金额',
     `benefit_discount` DECIMAL(16, 2) COMMENT '折扣',
     `create_time`      STRING COMMENT '创建时间',
@@ -355,6 +358,7 @@ CREATE EXTERNAL TABLE ods_cart_info_inc
     PARTITIONED BY (`dt` STRING)
     ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.JsonSerDe'
     LOCATION '/warehouse/gmall/ods/ods_cart_info_inc/';
+
 -- 7.2.19 评论表（增量表）
 DROP TABLE IF EXISTS ods_comment_info_inc;
 CREATE EXTERNAL TABLE ods_comment_info_inc
