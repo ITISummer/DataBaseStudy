@@ -1,0 +1,1 @@
+truncate table `tag_info`;
