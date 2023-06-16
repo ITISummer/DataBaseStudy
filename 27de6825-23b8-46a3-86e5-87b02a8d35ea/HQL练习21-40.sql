@@ -268,7 +268,10 @@ with t1 as (
       t1.user_id,
       t1.login_dt login_date,
       t1.login_count,
-      nvl(t2.order_count,0) order_count
+      nvl(t2.order_count,0),
+      order_count
 from t1 left join t2
 on t1.user_id = t2.user_id and t1.login_dt = t2.order_date;
 //endregion =================================================================
+
+
